@@ -4,6 +4,7 @@ import (
 	"log"
 )
 
+// CreateWorker creates new insatnce of worker that handles AsyncJob
 func CreateWorker() func(asyncJob *AsyncJob) {
 	return func(asyncJob *AsyncJob) {
 		defer func() {

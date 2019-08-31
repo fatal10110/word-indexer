@@ -20,6 +20,8 @@ type mapStore struct {
 	store IndexResults
 }
 
+
+// GetStat locks the map to prevent writing, then reads the stat for specific word
 func (ms *mapStore) GetStat(word string) (int, bool) {
 	ms.RLock()
 	defer ms.RUnlock()
@@ -27,6 +29,7 @@ func (ms *mapStore) GetStat(word string) (int, bool) {
 	return ms.store.Get(word)
 }
 
+// UpdateStats locks the map to prevent read and write, then updates the map data
 func (ms *mapStore) UpdateStats(stats IndexResults) error {
 	ms.Lock()
 	defer ms.Unlock()

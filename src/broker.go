@@ -5,6 +5,7 @@ import (
 	"log"
 )
 
+// JobExecutor defines the inteface for async job runtime
 type JobExecutor interface {
 	Execute() error
 }
@@ -16,10 +17,12 @@ type Broker interface {
 	Put(*AsyncJob)
 }
 
+// NewChannelBroker creats new broker instance base on channels
 func NewChannelBroker() Broker {
 	return &channelBroker{}
 }
 
+// NewAsyncJob wraps the JobExecutor with AsyncJob that can be dispatched
 func NewAsyncJob(job JobExecutor, maxRetries int, broker Broker) *AsyncJob {
 	return &AsyncJob{Job: job, MaxRetries: maxRetries, broker: broker}
 }
@@ -37,6 +40,7 @@ func (j *AsyncJob) Dispatch() error {
 	return nil
 }
 
+// Retry checks if job retries expired, if not it dispatches itself again
 func (j *AsyncJob) Retry() error {
 	if j.MaxRetries > j.RetriesCount {
 		log.Println("Retring job", j)
@@ -54,6 +58,7 @@ type channelBroker struct {
 	handler func(*AsyncJob)
 }
 
+// Handle takes a worker function that should ge an AsyncJob and execute it
 func (cb *channelBroker) Handle(handler func(*AsyncJob)) {
 	log.Println("Handling started")
 

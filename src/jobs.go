@@ -11,16 +11,22 @@ import (
 const defaultMaxRetries = 1
 const defaultBatchSizeBytes = 100
 
+// NewBatchingJob creates new batching AsynJob, Dispatch() shiould be called
+// this job will split large input bytes slice to batches and run the indexer
 func NewBatchingJob(input string, inputType InputType) *AsyncJob {
 	j := &batchingJob{inputType: inputType, input: input, batchSize: defaultBatchSizeBytes, broker: ChannelBroker}
 	return NewAsyncJob(j, defaultMaxRetries, ChannelBroker)
 }
 
+// NewReportStatisticJob creates new report statistic AsynJob, Dispatch() shiould be called
+// this job will add the provided stats to the store
 func NewReportStatisticJob(statistic IndexResults) *AsyncJob {
 	j := &reportStatisticJob{statistic: statistic }
 	return NewAsyncJob(j, defaultMaxRetries, ChannelBroker)
 }
 
+// NewBatchIndexerJob creates new indexer AsynJob, Dispatch() should be called
+// this job will index provided batch and will dispatch the report statistic job
 func NewBatchIndexerJob(batch []byte) *AsyncJob {
 	j := &batchIndexerJob{batch: batch, broker: ChannelBroker}
 	return NewAsyncJob(j, defaultMaxRetries, ChannelBroker)

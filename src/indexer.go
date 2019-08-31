@@ -38,6 +38,7 @@ type wordIndexer struct {
 	gen BatchesGenerator
 }
 
+// Index takes bytes slice and counts the words
 func (wi *wordIndexer) Index() (IndexResults, error) {
 	statistic := IndexResults{}
 	var err error

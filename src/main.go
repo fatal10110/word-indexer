@@ -5,6 +5,7 @@ import (
 	"log"
 )
 
+const workersCount = 5
 const webPort = 8080
 var StatsStore Store
 var ChannelBroker Broker
@@ -18,7 +19,7 @@ func main() {
 	ChannelBroker.Connect()
 	defer ChannelBroker.Disconnect()
 
-	for i := 0; i < 5; i++ {
+	for i := 0; i < workersCount; i++ {
 		go ChannelBroker.Handle(CreateWorker())
 	}
 

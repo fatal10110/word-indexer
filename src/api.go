@@ -29,6 +29,7 @@ func inputHandler(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if inputType == Text.String() {
+		// Since body may be large we first upload it to temp file
 		input, err = uploadBody(r.Body)
 		inputType = File.String()
 	} else {

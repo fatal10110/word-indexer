@@ -13,11 +13,12 @@ type BatchesGenerator interface {
 }
 
 
-// NewSplitGenerator creates new generator that splits input by delimiter
+// NewWordSplitGenerator creates new generator that splits input to words by delimiter
 func NewWordSplitGenerator(r io.Reader, delimiter byte) BatchesGenerator {
 	return &wordsSplitGenerator{r: bufio.NewReader(r), delimiter: delimiter}
 }
 
+// NewBatchGenerator creats new generator that generates batches from bytes slice stream reader 
 func NewBatchGenerator(r io.Reader, delimiter byte, batchSize int64) BatchesGenerator {
 	return &bytesBatchGenerator{r: bufio.NewReader(r), delimiter: delimiter, batchSize: batchSize}
 }
@@ -51,6 +52,7 @@ type bytesBatchGenerator struct {
 	batchSize int64
 }
 
+// Next takes the next batch from the bytes slice
 func (gen *bytesBatchGenerator) Next() ([]byte, error) {
 	var buf []byte
 	var err error
@@ -72,6 +74,7 @@ func (gen *bytesBatchGenerator) Next() ([]byte, error) {
 
 	ending, err := gen.r.ReadBytes(gen.delimiter)
 
+	// After reading the batch size from the stream, we want to get the whole ending word
 	buf = append(buf, ending...)
 	buf = bytes.Trim(buf, string(gen.delimiter))
 
