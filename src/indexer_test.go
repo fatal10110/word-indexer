@@ -40,6 +40,7 @@ func Test_wordIndexer_Index(t *testing.T) {
 		{name: "Test index one word", fields: fields{gen: &MockGenerator{err: io.EOF, res: [][]byte{[]byte("123")}}}, want: IndexResults{"123": 1}, wantErr: false},
 		{name: "Test index multiple words", fields: fields{gen: &MockGenerator{res: [][]byte{[]byte("123"), []byte("456"), []byte("")}}}, want: IndexResults{"123": 1, "456": 1}, wantErr: false},
 		{name: "Test index multiple times", fields: fields{gen: &MockGenerator{res: [][]byte{[]byte("456"), []byte("123"), []byte("456"), []byte("")}}}, want: IndexResults{"123": 1, "456": 2}, wantErr: false},
+		{name: "Test special chars", fields: fields{gen: &MockGenerator{res: [][]byte{[]byte("45!"), []byte("(123)"), []byte("45"), []byte("")}}}, want: IndexResults{"123": 1, "45": 2}, wantErr: false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

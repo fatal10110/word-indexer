@@ -1,6 +1,7 @@
 package main
 
 import (
+	"regexp"
 	"strings"
 	"io"
 	"bytes"
@@ -43,9 +44,11 @@ func (wi *wordIndexer) Index() (IndexResults, error) {
 	statistic := IndexResults{}
 	var err error
 	var word []byte
+	re := regexp.MustCompile(`[A-Za-z0-9]+`)
 
 	for {
 		word, err = wi.gen.Next()
+		word = re.Find(word)
 
 		if len(word) == 0 {
 			break
