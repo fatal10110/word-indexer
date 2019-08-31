@@ -1,6 +1,8 @@
 # Word Indexer
 Web app that index words from different sources, it splits the data into batches and runs the index on batches
 
+![go-docker](https://hackernoon.com/hn-images/1*JfSp7LWmVE1nj15IrxWSWQ.png)
+
 ### Supported sources
 - Text - Http body
 - URL - Web page content
