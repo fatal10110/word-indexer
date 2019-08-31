@@ -1,5 +1,5 @@
 # Word Indexer
-Web app that index words from different sources, it splits the data into batches and runs the index on batches
+Web app that index words from different sources, optimized for large inputs, it splits the data into batches and runs the index on each batches async
 
 ![go-docker](https://hackernoon.com/hn-images/1*JfSp7LWmVE1nj15IrxWSWQ.png)
 
@@ -37,6 +37,10 @@ curl -X GET http://localhost:8080/index/lorem
 ```
 
 # Components
+
+**src/main.go**
+
+App entrypoint, creats the store and broker and also runs the web server
 
 **Broker**
 
