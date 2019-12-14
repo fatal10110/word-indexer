@@ -1,5 +1,5 @@
 # Word Indexer
-Web app that index words from different sources, optimized for large inputs, it splits the data into batches and runs the index on each batches async
+Web app that index words from different sources, optimized for large inputs, it splits the data into batches and runs the index on each batch async
 
 ![go-docker](https://hackernoon.com/hn-images/1*JfSp7LWmVE1nj15IrxWSWQ.png)
 
